@@ -3,3 +3,7 @@ flask_api==0.7.1
 markdown
 requests==0.11.1
 gunicorn==19.6.0
+Django==1.11
+dj-database-url==0.4.1
+psycopg2==2.6.2
+whitenoise==2.0.6
