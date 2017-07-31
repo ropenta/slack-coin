@@ -1,5 +1,4 @@
 Flask==0.12.2
 flask_api==0.7.1
 markdown
-gunicorn==0.14.2
 requests==0.11.1
