@@ -1,0 +1,43 @@
+Phase A: Bot that graphs crytocurrency prices (snapshots as .pngs?)
+Phase B: Bot that graphs crytocurrency prices realtime
+Phase B: Makes predictions using reputable github algorithms
+
+Making sense of the chaos
+
+0. Create app.py file (Flask app) for high level details that take care of requests
+    Create bot.py for extra functions
+    Other .py files as needed
+    Will need at least a few specific routes
+    Will need a requirements .txt file for all relevant packages
+
+1. Create a Slack App (easy)
+    https://api.slack.com/apps/new
+    A few checkboxes, credentials, adding it to a team, etc.
+
+2. Decide which features to add
+    Webhooks, Interactive messages, Slash commands, Event Subscriptions, and Bots
+
+3. Will likely need to get a Request URL
+    Can get one from Heroku
+    This is where message data is captured and responded to
+
+4. It's up to you, the developer, 
+    to do something with the message data and respond back, if desired.
+    GET and POST
+
+5. ???
+
+Some links:
+http://code.runnable.com/UhLMQLffO1YSAADK/handle-a-post-request-in-flask-for-python
+http://localhost:5000/coin/
+https://www.worldcoinindex.com/apiservice
+https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV
+http://srijan.net/blog/how-parse-json-data-rest-api-using-simple-json-library
+http://www.restapitutorial.com/lessons/httpmethods.html
+http://code.runnable.com/UhLMQLffO1YSAADK/handle-a-post-request-in-flask-for-python
+https://www.safaribooksonline.com/library/view/python-cookbook-3rd/9781449357337/ch06s02.html
+http://codehandbook.org/working-with-json-in-python-flask/
+http://codehandbook.org/create-json-using-python-flask/
+http://codehandbook.org/python-web-application-flask-mysql/
+https://api.slack.com/slash-commands
+asdfhkj
