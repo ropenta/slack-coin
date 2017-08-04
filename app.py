@@ -1,5 +1,6 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, request, jsonify
+from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort
 import json
+import os
 
 app = Flask(__name__)
 build_notes = {
@@ -25,17 +26,42 @@ exampleworldcoinindex = {
 }
 #https://www.worldcoinindex.com/coin/<coin_name>
 
+exampleslackcommand = {
+    "token": "gIkuvaNzQIHg97ATvDxqgjtO",
+    "team_id": "T0001",
+    "team_domain": "example",
+    "enterprise_id": "E0001",
+    "enterprise_name": "Globular%20Construct%20Inc",
+    "channel_id": "C2147483705",
+    "channel_name": "test",
+    "user_id": "U2147483697",
+    "user_name": "Steve",
+    "command" : "/weather",
+    "text": 94070,
+    "response_url": "https://hooks.slack.com/commands/1234/5678"
+}
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
     return render_template('home.html')
 
+@app.route('/slash-command/', methods=['GET', 'POST'])
+def command():
+    token = request.form.get('token', None)
+    command = request.form.get('command', None)
+    text = request.form.get('text', None)
+    return jsonify({
+    
+    }) #, name=name, volume=volume)
+
 @app.route('/coin/', methods=['GET', 'POST'])
 def coin():
-    #name = request.form['Name']    
-    #volume = request.form["Volume_24h"]
-    return render_template('coin.html') #, name=name, volume=volume)
+    name = request.form['Name']    
+    volume = request.form.get["Volume_24h"]
+    return jsonify({
 
+    })
 
 if __name__ == ('__main__'):
     #app.secret_key='secret123'
