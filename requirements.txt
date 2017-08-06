@@ -1,7 +1,7 @@
 Flask==0.12.2
 flask_api==0.7.1
 markdown
-requests==0.11.1
+requests==2.18.3
 gunicorn==19.6.0
 Django==1.11
 dj-database-url==0.4.1

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort
+import requests
 import json
 import os
 
@@ -48,12 +49,20 @@ def index():
 
 @app.route('/slash-command/', methods=['GET', 'POST'])
 def command():
-    token = request.form.get('token', None)
-    command = request.form.get('command', None)
-    text = request.form.get('text', None)
-    return jsonify({
+    # token = request.form.get('token', None)
+    # command = request.form.get('command', None)
+    # text = request.form.get('text', None)
+    # print(text)
+    r = requests.get('https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV', auth=('user', 'pass'))
+    print(r.status_code)
+    return r.text
     
-    }) #, name=name, volume=volume)
+    # return jsonify({
+    #     'text' : 
+    #     'url' : 
+    #     'token' : 
+    #     "response_url": "https://mighty-eyrie-28651.herokuapp.com/slash-command"
+    # }) #, name=name, volume=volume)
 
 @app.route('/coin/', methods=['GET', 'POST'])
 def coin():
