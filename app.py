@@ -42,21 +42,49 @@ exampleslackcommand = {
     "response_url": "https://hooks.slack.com/commands/1234/5678"
 }
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-
     return render_template('home.html')
 
+
 @app.route('/slash-command/', methods=['GET', 'POST'])
-def command():
+def handler():
+    wci_url = 'https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV'
+
+    r = requests.get(wci_url, auth=('user', 'pass'))
+    print(r.status_code)
+    #r = requests.get('https://api.github.com/repos/requests/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
+    data = r.json()
+    #print(data[u'Markets'])
+    meta = data[u'Markets']
+    i = 0
+    for each in meta[i]['Label']:
+        print(each)
+        i = i + 1
+    # payload = dict(key1='val1', key2='value2')
+    # r = requests.post(wci_url, data=payload)
+    # print(r.request.headers)
+
+    return jsonify(r.text)
+    #return redirect("https://www.worldcoinindex.com/coin/bitcoin"), 
+
+    
+    
+
+if __name__ == ('__main__'):
+    #app.secret_key='secret123'
+    app.run(debug=True)
+
+
+
+
+
+
     # token = request.form.get('token', None)
     # command = request.form.get('command', None)
     # text = request.form.get('text', None)
     # print(text)
-    r = requests.get('https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV', auth=('user', 'pass'))
-    print(r.status_code)
-    return r.text
-    
+
     # return jsonify({
     #     'text' : 
     #     'url' : 
@@ -64,15 +92,11 @@ def command():
     #     "response_url": "https://mighty-eyrie-28651.herokuapp.com/slash-command"
     # }) #, name=name, volume=volume)
 
-@app.route('/coin/', methods=['GET', 'POST'])
-def coin():
-    name = request.form['Name']    
-    volume = request.form.get["Volume_24h"]
-    return jsonify({
 
-    })
+# @app.route('/coin/', methods=['GET', 'POST'])
+# def coin():
+#     name = request.form['Name']    
+#     volume = request.form.get["Volume_24h"]
+#     return jsonify({
 
-if __name__ == ('__main__'):
-    #app.secret_key='secret123'
-    app.run(debug=True)
-
+#     })
