@@ -55,17 +55,26 @@ def handler():
     print(r.status_code)
     #r = requests.get('https://api.github.com/repos/requests/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
     data = r.json()
-    #print(data[u'Markets'])
+    print(data.keys())
     meta = data[u'Markets']
-    i = 0
-    for each in meta[i]['Label']:
-        print(each)
-        i = i + 1
+    b = jsonify(meta[46])
+    e = jsonify(meta[173])
+    l = jsonify(meta[276])
+    #print(m['Label'])
+    i_num = 0
+    for i in meta:
+        print(i_num, '\n', i, '\n')
+        i_num = i_num + 1
+
+    # i = 0
+    # for each in meta[i]['Label']:
+    #     print(each)
+    #     i = i + 1
     # payload = dict(key1='val1', key2='value2')
     # r = requests.post(wci_url, data=payload)
     # print(r.request.headers)
 
-    return jsonify(r.text)
+    return jsonify([meta[46], meta[173], meta[276]])
     #return redirect("https://www.worldcoinindex.com/coin/bitcoin"), 
 
     
