@@ -77,16 +77,16 @@ def handler():
     # print(r.text)
 
     slack_url = request.form.get('response_url', None)
-    command = request.form.get('command', None)
+    text = request.form.get('text', None)
 
     print(data.keys)
     print(slack_url)
-    print(command)  #this has nothing in it unless a slack command is invoked
+    print(text)  #this has nothing in it unless a slack command is invoked
 
-    if (command == '/bitcoin' or command == 'bitcoin'):
+    if (text == '/bitcoin' or text == 'bitcoin'):
         coin_type = meta[46]
 
-    elif (command == '/ethereum' or command == 'ethereum'):
+    elif (text == '/ethereum' or text == 'ethereum'):
         coin_type = meta[173]
     else: #command == 'litecoin'
         coin_type = meta[276]
@@ -110,7 +110,7 @@ def handler():
     # r = requests.post(wci_url, data=payload)
     # print(r.request.headers)
 
-    return jsonify(command)
+    return jsonify(text)
     #return redirect("https://www.worldcoinindex.com/coin/bitcoin")
     # return jsonify({
     #     "text" : "some filler text foo bar",
