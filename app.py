@@ -61,9 +61,9 @@ def handler():
     meta = data[u'Markets']
 
 
-    if (command == 'bitcoin'):
+    if (command == '/bitcoin'):
         coin_type = meta[46]
-    elif (command == 'ethereum'):
+    elif (command == '/ethereum'):
         coin_type = meta[173]
     else: #command == 'litecoin'
         coin_type = meta[276]
