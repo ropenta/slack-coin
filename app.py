@@ -110,7 +110,7 @@ def handler():
     # r = requests.post(wci_url, data=payload)
     # print(r.request.headers)
 
-    return jsonify(text)
+    return jsonify(coin_type)
     #return redirect("https://www.worldcoinindex.com/coin/bitcoin")
     # return jsonify({
     #     "text" : "some filler text foo bar",
