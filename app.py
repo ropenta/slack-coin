@@ -50,6 +50,8 @@ def index():
 @app.route('/slash-command/', methods=['GET', 'POST'])
 def handler():
     wci_url = 'https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV'
+    slack_url = request.form.get('response_url', None)
+    command = request.form.get('command', None)
 
     r = requests.get(wci_url, auth=('user', 'pass'))
     print(r.status_code)
@@ -57,14 +59,25 @@ def handler():
     data = r.json()
     print(data.keys())
     meta = data[u'Markets']
-    b = jsonify(meta[46])
-    e = jsonify(meta[173])
-    l = jsonify(meta[276])
+
+
+    if (command == 'bitcoin'):
+        coin_type = meta[46]
+    elif (command == 'ethereum'):
+        coin_type = meta[173]
+    else: #command == 'litecoin'
+        coin_type = meta[277]
+
+    # b = meta[46]
+    # e = meta[173]
+    # l = meta[276]
     #print(m['Label'])
     i_num = 0
     for i in meta:
         print(i_num, '\n', i, '\n')
         i_num = i_num + 1
+
+
 
     # i = 0
     # for each in meta[i]['Label']:
@@ -74,8 +87,17 @@ def handler():
     # r = requests.post(wci_url, data=payload)
     # print(r.request.headers)
 
-    return jsonify([meta[46], meta[173], meta[276]])
-    #return redirect("https://www.worldcoinindex.com/coin/bitcoin"), 
+    #return jsonify([b, e, l])
+    #return redirect("https://www.worldcoinindex.com/coin/bitcoin")
+    return jsonify({
+        "text" : "some filler text foo bar",
+	    "attachments" : [
+            {
+                "fallback" : "fallback text",
+                "text" : "more filler text"
+            }
+       ]
+    })
 
     
     
