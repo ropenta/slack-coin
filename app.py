@@ -50,20 +50,43 @@ def index():
 @app.route('/slash-command/', methods=['GET', 'POST'])
 def handler():
     wci_url = 'https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV'
-    slack_url = request.form.get('response_url', None)
-    command = request.form.get('command', None)
+    print(request.form.keys)
 
     r = requests.get(wci_url, auth=('user', 'pass'))
     print(r.status_code)
     #r = requests.get('https://api.github.com/repos/requests/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
     data = r.json()
-    print(data.keys())
     meta = data[u'Markets']
 
+    payload = {
+        "token": "gIkuvaNzQIHg97ATvDxqgjtO",
+        "team_id": "T0001",
+        "team_domain": "example",
+        "enterprise_id": "E0001",
+        "enterprise_name": "Globular%20Construct%20Inc",
+        "channel_id": "C2147483705",
+        "channel_name": "test",
+        "user_id": "U2147483697",
+        "user_name": "Steve",
+        "command" : "/bitcoin",
+        "text": 94070,
+        "response_url": "https://hooks.slack.com/commands/1234/5678"
+    }
+    # session = requests.session()
+    # r = requests.post(wci_url, data=payload)
+    # print(r.text)
 
-    if (command == '/bitcoin'):
+    slack_url = request.form.get('response_url', None)
+    command = request.form.get('command', None)
+
+    print(data.keys)
+    print(slack_url)
+    print(command)  #this has nothing in it unless a slack command is invoked
+
+    if (command == '/bitcoin' or command == 'bitcoin'):
         coin_type = meta[46]
-    elif (command == '/ethereum'):
+
+    elif (command == '/ethereum' or command == 'ethereum'):
         coin_type = meta[173]
     else: #command == 'litecoin'
         coin_type = meta[276]
@@ -72,10 +95,10 @@ def handler():
     # e = meta[173]
     # l = meta[276]
     #print(m['Label'])
-    i_num = 0
-    for i in meta:
-        print(i_num, '\n', i, '\n')
-        i_num = i_num + 1
+    # i_num = 0
+    # for i in meta:
+    #     print(i_num, '\n', i, '\n')
+    #     i_num = i_num + 1
 
 
 
