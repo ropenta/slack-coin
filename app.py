@@ -66,7 +66,7 @@ def handler():
     elif (command == 'ethereum'):
         coin_type = meta[173]
     else: #command == 'litecoin'
-        coin_type = meta[277]
+        coin_type = meta[276]
 
     # b = meta[46]
     # e = meta[173]
@@ -87,17 +87,17 @@ def handler():
     # r = requests.post(wci_url, data=payload)
     # print(r.request.headers)
 
-    #return jsonify([b, e, l])
+    return jsonify(coin_type)
     #return redirect("https://www.worldcoinindex.com/coin/bitcoin")
-    return jsonify({
-        "text" : "some filler text foo bar",
-	    "attachments" : [
-            {
-                "fallback" : "fallback text",
-                "text" : "more filler text"
-            }
-       ]
-    })
+    # return jsonify({
+    #     "text" : "some filler text foo bar",
+	#     "attachments" : [
+    #         {
+    #             "fallback" : "fallback text",
+    #             "text" : "more filler text"
+    #         }
+    #    ]
+    # })
 
     
     
