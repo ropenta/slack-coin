@@ -83,10 +83,10 @@ def handler():
     print(slack_url)
     print(text)  #this has nothing in it unless a slack command is invoked
 
-    if (text == '/bitcoin' or text == 'bitcoin'):
+    if (text == 'btc' or text == 'bitcoin'):
         coin_type = meta[46]
 
-    elif (text == '/ethereum' or text == 'ethereum'):
+    elif (text == 'eth' or text == 'ethereum'):
         coin_type = meta[173]
     else: #command == 'litecoin'
         coin_type = meta[276]
