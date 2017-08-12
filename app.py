@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort
+import pyscreenshot as ImageGrab
 import requests
 import json
 import os
+
 
 app = Flask(__name__)
 build_notes = {
@@ -13,6 +15,78 @@ build_notes = {
     5: 'connect again with Slack and run \bitcoin to get useful info in the chatbox'
 }
 
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('home.html')
+
+
+@app.route('/slash-command/', methods=['GET', 'POST'])
+def handler():
+    '''
+        POST handler
+        1. GET the relevant JSON data from WCI
+        2. Format the Slack POST
+    '''
+    # 1. GET the relevant JSON data from WCI
+    wci_url = 'https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV'
+    print(request.form.keys)
+
+    r = requests.get(wci_url, auth=('user', 'pass'))
+    print(r.status_code)
+    data = r.json()
+    meta = data[u'Markets']
+
+    # session = requests.session()
+    # r = requests.post(wci_url, data=payload)
+    # print(r.text)
+
+    # 2. Format the Slack POST
+    slack_url = request.form.get('response_url', None)
+    text = request.form.get('text', None)
+
+    print(data.keys)
+    print(slack_url)
+    print(text)  #this has nothing in it unless a slack command is invoked
+
+    if (text == 'btc' or text == 'bitcoin'):
+        coin_type = meta[46]
+
+    elif (text == 'eth' or text == 'ethereum'):
+        coin_type = meta[173]
+    else: #command == 'litecoin'
+        coin_type = meta[276]
+
+
+
+    # part of the screen
+    # im = ImageGrab.grab(bbox=(10, 10, 510, 510))  # X1,Y1,X2,Y2
+    # im.show()
+    # fullscreen
+    screenshot=ImageGrab.grab()
+    screenshot.show()
+
+    # # part of the screen
+    # screenshot=pyscreenshot.grab(bbox=(10,10,500,500))
+    # screenshot.show()
+
+    # # save to file
+    #ImageGrab.grab_to_file('screenshot.png')
+    return jsonify(coin_type)
+
+
+    
+    
+
+if __name__ == ('__main__'):
+    #app.secret_key='secret123'
+    app.run(debug=True)
+
+
+
+'''
+    JSON Formats
+'''
 exampleworldcoinindex = {
     "Label": "ETH/BTC",
     "Name": "Ethereum",
@@ -37,120 +111,17 @@ exampleslackcommand = {
     "channel_name": "test",
     "user_id": "U2147483697",
     "user_name": "Steve",
-    "command" : "/weather",
+    "command" : "/coin",
     "text": 94070,
     "response_url": "https://hooks.slack.com/commands/1234/5678"
 }
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('home.html')
-
-
-@app.route('/slash-command/', methods=['GET', 'POST'])
-def handler():
-    wci_url = 'https://www.worldcoinindex.com/apiservice/json?key=BRCC0KMJDnZHfrGuaPL51giKV'
-    print(request.form.keys)
-
-    r = requests.get(wci_url, auth=('user', 'pass'))
-    print(r.status_code)
-    #r = requests.get('https://api.github.com/repos/requests/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
-    data = r.json()
-    meta = data[u'Markets']
-
-    payload = {
-        "token": "gIkuvaNzQIHg97ATvDxqgjtO",
-        "team_id": "T0001",
-        "team_domain": "example",
-        "enterprise_id": "E0001",
-        "enterprise_name": "Globular%20Construct%20Inc",
-        "channel_id": "C2147483705",
-        "channel_name": "test",
-        "user_id": "U2147483697",
-        "user_name": "Steve",
-        "command" : "/bitcoin",
-        "text": 94070,
-        "response_url": "https://hooks.slack.com/commands/1234/5678"
-    }
-    # session = requests.session()
-    # r = requests.post(wci_url, data=payload)
-    # print(r.text)
-
-    slack_url = request.form.get('response_url', None)
-    text = request.form.get('text', None)
-
-    print(data.keys)
-    print(slack_url)
-    print(text)  #this has nothing in it unless a slack command is invoked
-
-    if (text == 'btc' or text == 'bitcoin'):
-        coin_type = meta[46]
-
-    elif (text == 'eth' or text == 'ethereum'):
-        coin_type = meta[173]
-    else: #command == 'litecoin'
-        coin_type = meta[276]
-
-    # b = meta[46]
-    # e = meta[173]
-    # l = meta[276]
-    #print(m['Label'])
-    # i_num = 0
-    # for i in meta:
-    #     print(i_num, '\n', i, '\n')
-    #     i_num = i_num + 1
-
-
-
-    # i = 0
-    # for each in meta[i]['Label']:
-    #     print(each)
-    #     i = i + 1
-    # payload = dict(key1='val1', key2='value2')
-    # r = requests.post(wci_url, data=payload)
-    # print(r.request.headers)
-
-    return jsonify(coin_type)
-    #return redirect("https://www.worldcoinindex.com/coin/bitcoin")
-    # return jsonify({
-    #     "text" : "some filler text foo bar",
-	#     "attachments" : [
-    #         {
-    #             "fallback" : "fallback text",
-    #             "text" : "more filler text"
-    #         }
-    #    ]
-    # })
-
-    
-    
-
-if __name__ == ('__main__'):
-    #app.secret_key='secret123'
-    app.run(debug=True)
-
-
-
-
-
-
-    # token = request.form.get('token', None)
-    # command = request.form.get('command', None)
-    # text = request.form.get('text', None)
-    # print(text)
-
-    # return jsonify({
-    #     'text' : 
-    #     'url' : 
-    #     'token' : 
-    #     "response_url": "https://mighty-eyrie-28651.herokuapp.com/slash-command"
-    # }) #, name=name, volume=volume)
-
-
-# @app.route('/coin/', methods=['GET', 'POST'])
-# def coin():
-#     name = request.form['Name']    
-#     volume = request.form.get["Volume_24h"]
-#     return jsonify({
-
-#     })
+examplereturnformat = {
+    "text" : "some filler text foo bar",
+    "attachments" : [
+        {
+            "fallback" : "fallback text",
+            "text" : "more filler text"
+        }
+    ]
+}
