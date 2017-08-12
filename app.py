@@ -63,8 +63,8 @@ def handler():
     # im = ImageGrab.grab(bbox=(10, 10, 510, 510))  # X1,Y1,X2,Y2
     # im.show()
     # fullscreen
-    screenshot=ImageGrab.grab()
-    screenshot.show()
+    # screenshot=ImageGrab.grab()
+    # screenshot.show()
 
     # # part of the screen
     # screenshot=pyscreenshot.grab(bbox=(10,10,500,500))
