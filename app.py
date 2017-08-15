@@ -1,8 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort
+from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort, g
 import pyscreenshot as ImageGrab
 import requests
 import json
 import os
+import sqlite3
+
 
 
 app = Flask(__name__)
@@ -15,9 +17,41 @@ build_notes = {
     5: 'connect again with Slack and run \bitcoin to get useful info in the chatbox'
 }
 
+# Database functions from sqlite3
+DATABASE = '/path/to/database.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+def make_dicts(cursor, row):
+    return dict((cursor.description[idx][0], value)
+                for idx, value in enumerate(row))
+
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
+def init_db():
+    with app.app_context():
+        db = get_db()
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 @app.route('/', methods=['GET'])
 def index():
+    cur = get_db().cursor()
     return render_template('home.html')
 
 
