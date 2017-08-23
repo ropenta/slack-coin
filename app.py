@@ -1,9 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, session, request, jsonify, abort, g
-import pyscreenshot as ImageGrab
 import requests
 import json
 import os
-import sqlite3
 
 
 
